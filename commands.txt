@@ -1,0 +1,185 @@
+ Hmm, your system is configured to send core dump notifications to an
+    external utility. This will cause issues: there will be an extended delay
+    between stumbling upon a crash and having this information relayed to the
+    fuzzer via the standard waitpid() API.
+
+    To avoid having crashes misinterpreted as timeouts, please log in as root
+    and temporarily modify /proc/sys/kernel/core_pattern, like so:
+
+    echo core >/proc/sys/kernel/core_pattern
+
+AFL_SKIP_CPUFREQ=1 
+
+
+
+AFL_HARDEN=1 afl-clang -O0 imgread.c -fsanitize=address -fsanitize=undefined -g  -o imgreadafl
+
+AFL_SKIP_CPUFREQ=1 afl-fuzz -i input/ -o output -m none -g --./imgreadafl @@
+
+cd output > 
+
+ls queue
+
+xxd
+
+./imgreadafl output/crashes/id:000000,sig:06,src:000000,op:havoc,rep:128
+
+gedit imgread.c
+
+40/68
+
+gdb ./imgreadafl
+
+r output/crashes/id:000000,sig:06,src:000000,op:havoc,rep:128
+
+b40
+
+b68
+
+s 
+
+c
+
+p size1/size3
+
+
+0 - ? 
+1 - SIGHUP - ?, controlling terminal closed, 
+2 - SIGINT - interupt process stream, ctrl-C 
+3 - SIGQUIT - like ctrl-C but with a core dump, interuption by error in code, ctl-/ 
+4 - SIGILL 
+5 - SIGTRAP 
+6 - SIGABRT 
+7 - SIGBUS 
+8 - SIGFPE 
+9 - SIGKILL - terminate immediately/hard kill, use when 15 doesn't work or when something disasterous might happen if process is allowed to cont., kill -9 
+10 - SIGUSR1 
+11 - SIGEGV 
+12 - SIGUSR2
+13 - SIGPIPE 
+14 - SIGALRM
+15 - SIGTERM - terminate whenever/soft kill, typically sends SIGHUP as well? 
+16 - SIGSTKFLT 
+17 - SIGCHLD 
+18 - SIGCONT - Resume process, ctrl-Z (2nd)
+19 - SIGSTOP - Pause the process / free command line, ctrl-Z (1st)
+20 - SIGTSTP 
+21 - SIGTTIN 
+22 - SIGTTOU
+23 - SIGURG
+24 - SIGXCPU
+25 - SIGXFSZ
+26 - SIGVTALRM
+27 - SIGPROF
+28 - SIGWINCH
+29 - SIGIO 
+29 - SIGPOLL 
+30 - SIGPWR - shutdown, typically from unusual hardware failure 
+31 - SIGSYS 
+
+
+
+
+tcpdump:
+
+tcpdump ip6
+
+
+tcpdump portrange 21-23
+
+
+tcpdump -vv src mars and not dst port 22
+
+tcpdump -vvAls0 | grep 'User-Agent:'
+
+
+
+libpcap:
+CC=afl-clang CFLAGS="-g -fsanitize=address -fsanitize=undefined -fno-omit-frame-pointer" LDFLAGS="-g -fsanitize=address -fsanitize=undefined -fno-omit-frame-pointer" ./configure
+
+afl-cmin -i tests/ -out testsmin -m none -- ./tcpdump -vv -ee -nnr @@
+
+AFL_SKIP_CPUFREQ=1 afl-fuzz -i testsmin/ -o tcpdumpfuzz -m none -- ./tcpdump -vv -ee -nnr @@
+
+
+
+
+slurm:
+./configure CC=afl-clang CFLAGS="-g -fsanitize=address" LDFLAGS="-g -fsanitize=address -fsanitize=undefined" --prefix=/home/shubham/worksp/slurm-install/installdir  --sysconfdir=/home/shubham/worksp/slurm-install/conf   
+
+./configure CC=afl-clang --prefix=/home/shubham/worksp/slurm-install/installdir  --sysconfdir=/home/shubham/worksp/slurm-install/conf  
+
+./configure CC=afl-gcc --prefix=/home/shubham/worksp/slurm-install/installdir  --sysconfdir=/home/shubham/worksp/slurm-install/conf
+
+./configure CC=afl-cc --prefix=/home/shubham/worksp/slurm-install/installdir  --sysconfdir=/home/shubham/worksp/slurm-install/conf
+
+./configure --prefix=/home/shubham/worksp/slurm2/installdir  --sysconfdir=/home/shubham/worksp/slurm2/conf
+
+make
+
+make install
+
+AFL_SKIP_CPUFREQ=1 afl-fuzz -i /home/shubham/worksp/slurm-install/afl/tests/ -o /home/shubham/worksp/slurm-install/afl/output -m none -- /home/shubham/worksp/slurm-install/installdir/bin/squeue -u @@
+
+
+sudo AFL_SKIP_CPUFREQ=1 afl-fuzz -i /home/shubham/worksp/slurm-install/afl/tests/ -o /home/shubham/worksp/slurm-install/afl/output -m none -- /home/shubham/worksp/slurm-install/installdir/bin/sbatch @@
+
+
+
+
+
+
+slurmctld, slurmd:
+    /home/shubham/worksp/slurm-install/installdir/sbin
+
+sqeue, sbatch: 
+    /home/shubham/worksp/slurm-install/installdir/bin
+    cd /home/shubham/worksp/slurm-install/installdir/bin
+    ./sbatch /home/shubham/worksp/slurm-install/afltestinputfiles/simple1.sh
+    
+    
+    
+    /home/shubham/worksp/slurm-install/slurm-20.11.7/
+
+
+
+
+
+test.c :
+    cd /home/shubham/worksp/slurm-install/aflfuzz/apitestfuzz
+    
+    gcc test.c -o test -I/home/shubham/worksp/slurm-install/installdir/include/slurm -L/home/shubham/worksp/slurm-install/installdir/lib -lslurm -Wl,-rpath=/home/shubham/worksp/slurm-install/installdir/lib
+
+
+    afl-clang test.c -o test -I/home/shubham/worksp/slurm-install/installdir/include/slurm -L/home/shubham/worksp/slurm-install/installdir/lib -lslurm -Wl,-rpath=/home/shubham/worksp/slurm-install/installdir/lib
+
+    afl-gcc test.c -o test -I/home/shubham/worksp/slurm-install/installdir/include/slurm -L/home/shubham/worksp/slurm-install/installdir/lib -lslurm -Wl,-rpath=/home/shubham/worksp/slurm-install/installdir/lib -fsanitize=address
+    
+    AFL_SKIP_CPUFREQ=1 afl-fuzz -i afl/input/ -o afl/output -m none -- ./test 
+    
+    export LD_LIBRARY_PATH=/home/shubham/worksp/slurm-install/installdir/lib
+    export LD_LIBRARY_PATH=/home/shubham/worksp/slurm-install/installdir/lib:$LD_LIBRARY_PATH
+
+
+
+slurm @ sslabdev":
+        ./configure --prefix=~/workspace/slurm2108/insdir  --sysconfdir=~/workspace/slurm2108/conf  
+        
+        1-1: ./configure CC=gcc CFLAGS='-g -O0' CXXFLAGS='-g -O0' --prefix=/home/shubham/workspace/slurm210811/insdir/  --sysconfdir=/home/shubham/workspace/slurm210811/conf 
+        
+        ./configure --prefix=/home/shubham/workspace/slurm21/insdir  --sysconfdir=/home/shubham/workspace/slurm21/conf
+        make
+        make install
+        
+gdb:
+    gdb --args ./slurmctld -Dvvv
+    ./slurmd -Dvvv
+    
+    
+    
+    break [file_name]:line_number
+    break [file_name]:func_name
+    
+    
+    break fetch_config.c:162
+    
