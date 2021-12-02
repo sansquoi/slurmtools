@@ -75,4 +75,4 @@ cd /home/shubham/workspace/slurmsim/sim/micro/baseline
 
 
 
-ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'principles';
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '*';

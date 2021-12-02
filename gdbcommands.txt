@@ -1,0 +1,10 @@
+gdb --args ./slurmctld -Dvvv
+    ./slurmd -Dvvv
+    
+    
+    
+    break [file_name]:line_number
+    break [file_name]:func_name
+    
+    
+    break fetch_config.c:162

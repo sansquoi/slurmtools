@@ -1,0 +1,8 @@
+slurm @ sslabdev":
+        ./configure --prefix=~/workspace/slurm2108/insdir  --sysconfdir=~/workspace/slurm2108/conf  
+        
+        1-1: ./configure CC=gcc CFLAGS='-g -O0' CXXFLAGS='-g -O0' --prefix=/home/shubham/workspace/slurm210811/insdir/  --sysconfdir=/home/shubham/workspace/slurm210811/conf 
+        
+        ./configure --prefix=/home/shubham/workspace/slurm21/insdir  --sysconfdir=/home/shubham/workspace/slurm21/conf
+        make
+        make install
