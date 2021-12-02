@@ -6,3 +6,19 @@ slurm @ sslabdev":
         ./configure --prefix=/home/shubham/workspace/slurm21/insdir  --sysconfdir=/home/shubham/workspace/slurm21/conf
         make
         make install
+        
+        
+        
+
+
+
+
+
+
+Disabling optimizations can most easily be done when you run configure, or when you run make. Either
+
+configure CFLAGS='-g -O0' CXXFLAGS='-g -O0'
+
+or
+
+make CFLAGS='-g -O0' CXXFLAGS='-g -O0' clean all

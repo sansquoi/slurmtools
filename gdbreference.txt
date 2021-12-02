@@ -1,0 +1,15 @@
+gdb --args executablename [args]
+
+Adding breakpoints:
+  break [file_name]:line_number
+  break [file_name]:func_name
+
+Clearing breakpoints:
+  clear linenum
+  clear filename:linenum
+  
+  or
+  
+  info break
+  del [breakpoint number]
+  

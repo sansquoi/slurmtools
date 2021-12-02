@@ -1,10 +1,14 @@
 gdb --args ./slurmctld -Dvvv
     ./slurmd -Dvvv
     
-    
-    
-    break [file_name]:line_number
-    break [file_name]:func_name
-    
-    
     break fetch_config.c:162
+    break parse_config.c:216
+    break read_config.c:2433
+    break slurm_cred.c:831
+    break read_config.c:275
+    
+    
+    
+    
+    
+    
