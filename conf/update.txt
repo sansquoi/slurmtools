@@ -1,0 +1,27 @@
+
+  validate_job_create_req() : Perform some size checks on strings we store to prevent malicious user filling slurmctld's memory
+            -> validate_operator
+            -> validate_super_user
+            ->node_features_g_job_valid
+            -> 
+  
+  
+  test_job_desc_fields() - /* Make sure a job descriptor's strings are not huge, which could result in
+ * a denial of service attack due to memory demands by the slurmctld */
+              -> job_mgr.c:7615:
+                        -> validate max script size from value in config
+ 
+  
+  atoi()
+  
+  
+  strlen()
+              ->NonNullTerminatedString
+  
+  _
+ 
+ 
+ -sched_params
+            -> check population
+            -> check validation
+  

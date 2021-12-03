@@ -184,6 +184,8 @@ gdb:
     break fetch_config.c:162
     
     
+sbatch:
+    ./sbatch /home/shubham/workspace/slurmtools/inputs/simple.sh
     
     
     

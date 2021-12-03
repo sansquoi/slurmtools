@@ -6,9 +6,11 @@ gdb --args ./slurmctld -Dvvv
     break read_config.c:2433
     break slurm_cred.c:831
     break read_config.c:275
+    break job_mgr.c:7615
     
     
     
+    set tmp_ptr = { '1','0','0','0','0','0','0', '\0' }
     
     
     
